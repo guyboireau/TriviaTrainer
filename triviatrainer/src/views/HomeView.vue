@@ -1,14 +1,7 @@
-<template>
-  <div class='home'>
-    <!-- <img alt='Vue logo' src='../assets/logo.png'> -->
-    <QuestionComponent v-for='question in state.questions' :key='question' :question='question' />
-  </div>
-</template>
-
 <script lang='ts'>
 import { Options, Vue } from 'vue-class-component'
 import QuestionComponent from '@/components/QuestionComponent.vue'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 // const initToken = async () => {
 //   const token = localStorage.getItem('token') || ''
@@ -20,39 +13,47 @@ import { ref } from 'vue'
 //     return newToken
 //   }
 // }
-// const token = initToken()
 // const fetchToken = async () => {
 //   const response = await fetch('https://opentdb.com/api_token.php?command=request')
 //   return (await response.json()).token
 // }
+
+// const token = initToken()
+
 const fetchQuestion = async () => {
-  fetch('https://opentdb.com/api.php?amount=10&type=multiple')
+  fetch('https://the-trivia-api.com/v2/questions')
     .then((res) => res.json())
     .then((data) => {
-      state.value.questions = data.results
+      state.questions.push(...data)
+      // console.log(state.questions)
     })
 }
 
 fetchQuestion()
 
-const state = ref({
+const state = reactive({
   questions: [
     {
-      category: ref(''),
-      type: ref(''),
-      difficulty: ref(''),
-      question: ref(''),
-      correct_answer: ref(''),
-      incorrect_answers: ref([])
+      id: String,
+      question: {
+        text: String
+      },
+      category: String,
+      type: String,
+      difficulty: String,
+      correctAnswer: String,
+      incorrectAnswers: [String]
     }
   ]
 })
+state.questions.splice(0, 1)
 
 @Options({
   components: {
     QuestionComponent
   }
 })
+
 export default class HomeView extends Vue {
   state = state
   data (): object {
@@ -62,3 +63,12 @@ export default class HomeView extends Vue {
   }
 }
 </script>
+
+<template>
+  <div class='home'>
+    <!-- <img alt='Vue logo' src='../assets/logo.png'> -->
+    <div v-if='state.questions!==null'>
+      <QuestionComponent v-for='question in state.questions' :key='question.id' :question='question' />
+    </div>
+  </div>
+</template>
