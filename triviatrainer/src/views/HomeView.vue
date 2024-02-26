@@ -1,52 +1,34 @@
 <script lang='ts'>
 import { Options, Vue } from 'vue-class-component'
 import QuestionComponent from '@/components/QuestionComponent.vue'
-import { reactive, ref } from 'vue'
-
-// const initToken = async () => {
-//   const token = localStorage.getItem('token') || ''
-//   if (token) {
-//     return token
-//   } else {
-//     const newToken = await fetchToken()
-//     localStorage.setItem('token', newToken)
-//     return newToken
-//   }
-// }
-// const fetchToken = async () => {
-//   const response = await fetch('https://opentdb.com/api_token.php?command=request')
-//   return (await response.json()).token
-// }
-
-// const token = initToken()
+import { Question } from '@/types/Question'
+import { reactive } from 'vue'
 
 const fetchQuestion = async () => {
-  fetch('https://the-trivia-api.com/v2/questions')
-    .then((res) => res.json())
-    .then((data) => {
-      state.questions.push(...data)
-      // console.log(state.questions)
-    })
+  try {
+    const response = await fetch('https://the-trivia-api.com/v2/questions')
+    if (!response.ok) {
+      throw new Error('Unable to fetch questions')
+    }
+    const data = await response.json()
+    // Vérifie si les données sont conformes à la structure de Question
+    if (Array.isArray(data) && data.every(item => 'id' in item && 'question' in item && 'category' in item && 'type' in item && 'difficulty' in item && 'correctAnswer' in item && 'incorrectAnswers' in item)) {
+      state.questions.push(...(data as Question[]))
+    } else {
+      throw new Error('Invalid data received')
+    }
+  } catch (error) {
+    console.error('Error fetching questions:', error)
+    // Gérer l'erreur de manière appropriée (affichage d'un message d'erreur, etc.)
+  }
 }
 
-fetchQuestion()
-
 const state = reactive({
-  questions: [
-    {
-      id: String,
-      question: {
-        text: String
-      },
-      category: String,
-      type: String,
-      difficulty: String,
-      correctAnswer: String,
-      incorrectAnswers: [String]
-    }
-  ]
+  questions: [],
+  correctAnswersCount: 0
 })
-state.questions.splice(0, 1)
+
+fetchQuestion()
 
 @Options({
   components: {
@@ -56,19 +38,24 @@ state.questions.splice(0, 1)
 
 export default class HomeView extends Vue {
   state = state
-  data (): object {
-    return {
-      state: state
-    }
+
+  // Méthode pour incrémenter le compteur de bonnes réponses
+  incrementCorrectAnswers () {
+    this.state.correctAnswersCount++
   }
 }
 </script>
 
 <template>
   <div class='home'>
-    <!-- <img alt='Vue logo' src='../assets/logo.png'> -->
-    <div v-if='state.questions!==null'>
-      <QuestionComponent v-for='question in state.questions' :key='question.id' :question='question' />
+    <p>Nombre de bonnes réponses : {{ state.correctAnswersCount }}</p>
+    <div v-if='state.questions.length > 0'>
+      <QuestionComponent
+        v-for='question in state.questions'
+        :key='question.id'
+        :question='question'
+        :incrementCorrectAnswers='incrementCorrectAnswers'
+      />
     </div>
   </div>
 </template>

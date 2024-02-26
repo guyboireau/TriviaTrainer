@@ -5,7 +5,10 @@
       <h3>{{ question.question.text }}</h3>
       <p>{{ question.difficulty }}</p>
       <div class="answers">
-        <button v-for="answer in shuffledAnswers" :key="answer" @click="checkAnswer(answer)">{{ answer }}</button>
+        <button v-for="answer in shuffledAnswers" :key="answer" :class="getButtonClass(answer)" :disabled="answerSelected"
+          @click="checkAnswer(answer)">
+          {{ answer }}
+        </button>
       </div>
     </div>
     <div v-else>
@@ -33,12 +36,15 @@ const shuffle = (array: string[]) => {
 }
 
 const props = defineProps({
-  question: Object
+  question: Object,
+  incrementCorrectAnswers: Function
 })
 
 const shuffledAnswers = ref<string[]>([])
 const correctAnswers = ref(0)
 const incorrectAnswers = ref(0)
+const answerSelected = ref(false)
+const selectedAnswer = ref('')
 
 onMounted(() => {
   if (props.question) {
@@ -47,11 +53,22 @@ onMounted(() => {
   }
 })
 
-const checkAnswer = (selectedAnswer: string) => {
-  if (props.question && selectedAnswer === props.question.correctAnswer) {
-    correctAnswers.value++
-  } else {
-    incorrectAnswers.value++
+const checkAnswer = (answer: string) => {
+  if (!answerSelected.value) {
+    answerSelected.value = true
+    selectedAnswer.value = answer
+    if (props.question && answer === props.question.correctAnswer) {
+      if (props.incrementCorrectAnswers) {
+        props.incrementCorrectAnswers()
+      }
+    }
+  }
+}
+const getButtonClass = (answer: string) => {
+  if (answer === props.question?.correctAnswer && selectedAnswer.value !== '') {
+    return 'correct-answer'
+  } else if (answer === selectedAnswer.value) {
+    return 'selected-answer'
   }
 }
 </script>
@@ -81,5 +98,14 @@ const checkAnswer = (selectedAnswer: string) => {
 
 button {
   margin: 5px;
+  border-radius: 10%;
+}
+
+.correct-answer {
+  background-color: green;
+}
+
+.selected-answer {
+  background-color: red;
 }
 </style>
