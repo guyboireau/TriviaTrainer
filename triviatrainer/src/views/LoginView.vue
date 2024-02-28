@@ -28,10 +28,11 @@ export default defineComponent({
   methods: {
     async login () {
       try {
-        await signInWithEmailAndPassword(auth, this.email, this.password)
+        const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password)
+        localStorage.setItem('@user', JSON.stringify(userCredential.user))
         console.log('User logged in successfully')
       } catch (error) {
-        console.error(error)
+        console.log('Error logging in:', error)
       }
     }
   }

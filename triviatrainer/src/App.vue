@@ -2,11 +2,11 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/login" v-if="!loggedIn">Login</router-link> |
-      <router-link to="/profile" v-if="loggedIn">Profile</router-link> |
-      <router-link to="/logout" v-if="loggedIn">Logout</router-link> |
-      <router-link to="/register" v-if="!loggedIn">Register</router-link>
+      <router-link to="/randomquizz">Quizz</router-link> |
+      <router-link v-if="!loggedIn" to="/login">Login | </router-link>
+      <router-link v-if="loggedIn" to="/profile">Profile | </router-link>
+      <router-link to="/" v-if="loggedIn" @click.prevent="logout">Logout | </router-link>
+      <router-link v-if="!loggedIn" to="/register">Register</router-link>
       <router-link to="/score">Score</router-link>
     </nav>
     <router-view />
@@ -14,7 +14,8 @@
 </template>
 
 <script lang="ts">
-import { auth, onAuthStateChanged, user } from '@/firebase/firebase.js'
+import { onAuthStateChanged } from '@/firebase/firebase.js'
+import { getAuth, signOut } from 'firebase/auth'
 
 export default {
   data () {
@@ -23,16 +24,20 @@ export default {
     }
   },
   created () {
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     this.loggedIn = true
-    //   } else {
-    //     this.loggedIn = false
-    //   }
-    // })
-    if (user) {
-      this.loggedIn = true
-      console.log('User is logged in')
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+      this.loggedIn = !!user
+    })
+  },
+  methods: {
+    async logout () {
+      const auth = getAuth()
+      try {
+        await signOut(auth)
+        console.log('Déconnexion réussie')
+      } catch (error) {
+        console.error('Erreur lors de la déconnexion : ', error)
+      }
     }
   }
 }

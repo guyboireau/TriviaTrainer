@@ -10,8 +10,12 @@
 </template>
 
 <script lang="ts">
-import { collection, getDocs } from 'firebase/firestore'
-import { db, playersCollection } from '@/firebase/firebase.js'
+import {
+  collection, onSnapshot,
+  addDoc, doc, deleteDoc, updateDoc,
+  query, orderBy, getDocs
+} from 'firebase/firestore'
+import { db } from '@/firebase/firebase'
 import { Vue } from 'vue-class-component'
 
 export default class ScoreView extends Vue {
@@ -22,6 +26,7 @@ export default class ScoreView extends Vue {
   }
 
   async fetchPlayers () {
+    const playersCollection = collection(db, 'usertrivial')
     const querySnapshot = await getDocs(playersCollection)
     querySnapshot.forEach((doc) => {
       this.players.push(doc.data() as { name: string; score: number })

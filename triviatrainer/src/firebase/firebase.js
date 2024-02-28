@@ -3,7 +3,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,8 +24,6 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app); 
 const db = getFirestore(app);
-const user = auth.currentUser;
-const playersCollection = collection(db, 'usertrivial')
 
 
-export default {app, analytics, auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, user, playersCollection};
+export  { analytics, auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged};

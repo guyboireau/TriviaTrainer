@@ -37,7 +37,8 @@ const shuffle = (array: string[]) => {
 
 const props = defineProps({
   question: Object,
-  incrementCorrectAnswers: Function
+  incrementCorrectAnswers: Function,
+  incrementIncorrectAnswers: Function
 })
 
 const shuffledAnswers = ref<string[]>([])
@@ -60,7 +61,11 @@ const checkAnswer = (answer: string) => {
     if (props.question && answer === props.question.correctAnswer) {
       if (props.incrementCorrectAnswers) {
         props.incrementCorrectAnswers()
+      } else {
+        props.incrementIncorrectAnswers()
       }
+    } else {
+      props.incrementIncorrectAnswers()
     }
   }
 }
