@@ -18,13 +18,12 @@
 
 <script lang="ts">
 // import { createUserWithEmailAndPassword, AuthError } from '@/firebase/firebase.js'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-import { setDoc, doc, collection, addDoc } from 'firebase/firestore'
+import { setDoc, doc, collection } from 'firebase/firestore'
 import { db } from '@/firebase/firebase'
 
 const auth = getAuth()
-const user = auth.currentUser
 
 export default defineComponent({
   data () {
@@ -38,15 +37,12 @@ export default defineComponent({
     async registerUser () {
       try {
         const newUser = await createUserWithEmailAndPassword(auth, this.email, this.password)
+        // localStorage.setItem('@user', JSON.stringify(newUser.user))
+        this.$router.push('/login')
         console.log('User registered successfully')
         await this.addUser(newUser.user?.uid)
       } catch (error) {
         console.error(error)
-        // if (error instanceof AuthError || error.code === 'auth/invalid-email' || error.code === 'auth/email-already-in-use') {
-        //   console.error('Auth error:', error.message)
-        // } else {
-        //   console.error('Unknown error:', error.message)
-        // }
       }
     },
     addUser: async function (newUserId: string) {
@@ -56,8 +52,8 @@ export default defineComponent({
       }
 
       try {
-        const userRef = collection(db, 'user')
-        await addDoc(userRef, {
+        const userRef = collection(db, 'usertrivial')
+        await setDoc(doc(userRef, newUserId), {
           name: this.name,
           userId: newUserId
         })
@@ -87,7 +83,7 @@ body {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 form {

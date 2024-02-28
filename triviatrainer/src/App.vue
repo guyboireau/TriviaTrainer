@@ -2,12 +2,14 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link> |
-      <router-link to="/randomquizz">Quizz</router-link> |
+      <router-link to="/quizz">Quizz</router-link> |
+      <router-link to="/categories">Categories</router-link> |
       <router-link v-if="!loggedIn" to="/login">Login | </router-link>
       <router-link v-if="loggedIn" to="/profile">Profile | </router-link>
       <router-link to="/" v-if="loggedIn" @click.prevent="logout">Logout | </router-link>
-      <router-link v-if="!loggedIn" to="/register">Register</router-link>
+      <router-link v-if="!loggedIn" to="/register">Register | </router-link>
       <router-link to="/score">Score</router-link>
+
     </nav>
     <router-view />
   </div>
@@ -25,6 +27,7 @@ export default {
   },
   created () {
     const auth = getAuth()
+
     onAuthStateChanged(auth, (user) => {
       this.loggedIn = !!user
     })
@@ -35,6 +38,7 @@ export default {
       try {
         await signOut(auth)
         console.log('Déconnexion réussie')
+        localStorage.removeItem('@user')
       } catch (error) {
         console.error('Erreur lors de la déconnexion : ', error)
       }

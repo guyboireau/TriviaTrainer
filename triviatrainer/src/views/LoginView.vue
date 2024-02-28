@@ -30,6 +30,7 @@ export default defineComponent({
       try {
         const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password)
         localStorage.setItem('@user', JSON.stringify(userCredential.user))
+        this.$router.push('/')
         console.log('User logged in successfully')
       } catch (error) {
         console.log('Error logging in:', error)
@@ -64,13 +65,12 @@ input[type="password"] {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-button {
+/*button {
   padding: 10px;
-  /* background-color: #007bff; */
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
+} */
 </style>

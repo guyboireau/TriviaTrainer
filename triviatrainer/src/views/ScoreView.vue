@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="score-view">
     <h2>Classement des joueurs</h2>
     <ul>
-      <li v-for='(player, index) in players' :key='index'>
+      <li v-for="(player, index) in players" :key="index" class="player-item">
         {{ player.name }} - Score: {{ player.score }}
       </li>
     </ul>
@@ -11,9 +11,7 @@
 
 <script lang="ts">
 import {
-  collection, onSnapshot,
-  addDoc, doc, deleteDoc, updateDoc,
-  query, orderBy, getDocs
+  collection, query, orderBy, getDocs
 } from 'firebase/firestore'
 import { db } from '@/firebase/firebase'
 import { Vue } from 'vue-class-component'
@@ -27,7 +25,7 @@ export default class ScoreView extends Vue {
 
   async fetchPlayers () {
     const playersCollection = collection(db, 'usertrivial')
-    const querySnapshot = await getDocs(playersCollection)
+    const querySnapshot = await getDocs(query(playersCollection, orderBy('score', 'desc')))
     querySnapshot.forEach((doc) => {
       this.players.push(doc.data() as { name: string; score: number })
     })
@@ -35,6 +33,18 @@ export default class ScoreView extends Vue {
 }
 </script>
 
-<style>
-/* Styles here */
+<style scoped>
+.score-view {
+  max-width: 600px;
+  margin: auto;
+}
+
+.player-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.player-item:last-child {
+  border-bottom: none;
+}
 </style>

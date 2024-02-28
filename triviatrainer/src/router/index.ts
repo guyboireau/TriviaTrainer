@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import { getAuth } from 'firebase/auth'
-
-const auth = getAuth()
 
 // Fonction pour vérifier si l'utilisateur est connecté
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('@user'))
   try {
+    console.log('Checking authentication...')
+    if (user) {
+      return user
+    }
     return user
   } catch (error) {
     console.error('Error checking authentication:', error)
@@ -38,11 +39,6 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: 'about' */ '../views/AboutView.vue')
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: 'login' */ '../views/LoginView.vue'),
@@ -62,14 +58,25 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import(/* webpackChunkName: 'logout' */ '../views/LoginView.vue'),
+    component: () => import(/* webpackChunkName: 'logout' */ '../views/ProfilView.vue'),
     beforeEnter: userGuard
   },
   {
-    path: '/randomquizz',
-    name: 'logout',
+    path: '/quizz',
+    name: 'randomquizz',
     component: () => import(/* webpackChunkName: 'logout' */ '../views/QuizzView.vue'),
     beforeEnter: userGuard
+  },
+  {
+    path: '/quizz/:id',
+    name: 'quizz',
+    component: () => import(/* webpackChunkName: 'logout' */ '../views/QuizzView.vue'),
+    beforeEnter: userGuard
+  },
+  {
+    path: '/categories',
+    name: 'categories',
+    component: () => import(/* webpackChunkName: 'category' */ '../views/CategoriesView.vue')
   }
 ]
 
