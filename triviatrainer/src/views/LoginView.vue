@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-// import { signInWithEmailAndPassword } from '../firebase/firebase.js'
 import { defineComponent } from 'vue'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
@@ -65,12 +64,4 @@ input[type="password"] {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-/*button {
-  padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-} */
 </style>

@@ -101,8 +101,6 @@ export default class QuizzView extends Vue {
     }
 
     async addScore () {
-      this.state.correctAnswersCount = 0
-      this.state.incorrectAnswersCount = 0
       const user = JSON.parse(localStorage.getItem('@user') || '{}')
       if (!user?.uid) {
         console.error('User not authenticated')
@@ -126,6 +124,13 @@ export default class QuizzView extends Vue {
         })
       }
     }
+
+    async resetAnswewrs () {
+      this.state.correctAnswersCount = 0
+      this.state.incorrectAnswersCount = 0
+      this.state.score = 0
+      fetchQuestion()
+    }
 }
 </script>
 
@@ -135,6 +140,8 @@ export default class QuizzView extends Vue {
         <p>Testez vos connaissances</p>
         <p>Nombre de bonnes réponses : {{ state.correctAnswersCount }}</p>
         <p>Nombre de mauvaise réponses : {{ state.incorrectAnswersCount }}</p>
+        <p>Score : {{ state.score }}</p>
+        <button @click='resetAnswewrs'>Nouvel session</button>
         <div v-if='state.questions.length > 0'>
             <QuestionComponent v-for='(question, index) in state.questions' :key='index' :question='question'
                 :incrementCorrectAnswers='incrementCorrectAnswers' :incrementIncorrectAnswers='incrementIncorrectAnswers' />

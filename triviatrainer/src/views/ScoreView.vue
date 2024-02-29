@@ -34,6 +34,10 @@ export default class ScoreView extends Vue {
 </script>
 
 <style scoped>
+
+li {
+  list-style: none;
+}
 .score-view {
   max-width: 600px;
   margin: auto;

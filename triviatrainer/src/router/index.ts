@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
-// Fonction pour vérifier si l'utilisateur est connecté
 const isAuthenticated = () => {
   const user = JSON.parse(localStorage.getItem('@user'))
   try {
@@ -16,7 +15,6 @@ const isAuthenticated = () => {
   }
 }
 
-// Garde de navigation pour restreindre l'accès aux routes 'login' et 'logout' aux utilisateurs non connectés
 const guestGuard = (to, from, next) => {
   if (!isAuthenticated()) {
     next()
@@ -42,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: 'login' */ '../views/LoginView.vue'),
-    beforeEnter: guestGuard // Utilisation de la garde de navigation pour restreindre l'accès aux utilisateurs non connectés
+    beforeEnter: guestGuard 
   },
   {
     path: '/register',

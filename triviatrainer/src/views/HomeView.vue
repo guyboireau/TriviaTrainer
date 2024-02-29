@@ -1,11 +1,11 @@
 <template>
-  <div class='dark-mode'>
+  <div class='home'>
     <h1>Quizz</h1>
     <p>Testez vos connaissances</p>
     <p>Nombre de bonnes réponses : {{ state.correctAnswersCount }}</p>
     <p>Nombre de mauvaise réponses : {{ state.incorrectAnswersCount }}</p>
     <button @click='fetchQuestions'>Question suivante</button>
-    <div v-if='state.questions.length > 0'>
+    <div v-if='state.questions.length > 0' class="card"> 
       <QuestionComponent v-for='(question, index) in state.questions' :key='index' :question='question'
                           :incrementCorrectAnswers='incrementCorrectAnswers'
                           :incrementIncorrectAnswers='incrementIncorrectAnswers' />
@@ -14,6 +14,7 @@
       <p>Aucune question à afficher</p>
     </div>
     <div class='categories'>
+      <h2>Categories</h2>
       <div v-for="category in state.categories" :key="category.id" class="card">
         <CategoryComponent :category="category" />
       </div>
@@ -146,14 +147,13 @@ export default class HomeView extends Vue {
 </script>
 <style scoped lang="css">
 .home {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
 body {
   font-family: Arial, sans-serif;
-  /* background-color: #222; */
   margin: 0;
   padding: 0;
   display: flex;
@@ -162,14 +162,6 @@ body {
   height: 100vh;
 }
 
-/* .dark-mode {
-  background-color: #222;
-  color: #fff;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-} */
-
 h1 {
   font-size: 2em;
   margin-bottom: 20px;
@@ -177,8 +169,6 @@ h1 {
 
 button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -190,5 +180,12 @@ button {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+
+.categories {
+  gap: 10px;
+  width: 30%;
+  margin: 0 auto;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div  class="register-container">
     <h1>Registration</h1>
-    <form @submit.prevent="registerUser">
+    <form @submit.prevent="registerUser" >
       <label for="email">Email:</label>
       <input type="email" id="email" v-model="email" required>
       <br>
@@ -37,7 +37,6 @@ export default defineComponent({
     async registerUser () {
       try {
         const newUser = await createUserWithEmailAndPassword(auth, this.email, this.password)
-        // localStorage.setItem('@user', JSON.stringify(newUser.user))
         this.$router.push('/login')
         console.log('User registered successfully')
         await this.addUser(newUser.user?.uid)
@@ -67,47 +66,32 @@ export default defineComponent({
 </script>
 
 <style scoped>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
 
-.container {
-  width: 300px;
-  background-color: #fff;
+.register-container {
+  max-width: 400px;
+  margin: 0 auto;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 form {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-input {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
+label {
+  font-weight: bold;
 }
 
-button {
-  padding: 10px;
-  background-color: #007BFF;
-  /* color: #fff; */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 5px;
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 4px;
+
 }
 
-button:hover {
-  background-color: #0056b3;
-}
 </style>

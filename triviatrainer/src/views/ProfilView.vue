@@ -79,7 +79,6 @@ export default defineComponent({
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #f9f9f9;
 }
 
 .profile h1 {

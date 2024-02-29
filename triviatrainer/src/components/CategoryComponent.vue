@@ -1,5 +1,5 @@
 <template>
-    <div class="question-card">
+    <div class="categ-card">
         <router-link :to="{ name: 'quizz', params: { id: category.id } }">
         {{ decodeHtml(category.name) }}
       </router-link>
@@ -19,13 +19,12 @@ const props = defineProps({
 })
 </script>
   <style scoped>
-  .question-card {
+  .categ-card {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .card {
-    background-color: #f0f0f0;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;

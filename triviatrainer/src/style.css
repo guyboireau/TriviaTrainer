@@ -1,0 +1,47 @@
+html{
+    background-color: #222;
+    color: #fff;
+}
+
+html a {
+    color: #fff;
+    text-decoration: none;
+}
+
+html a:hover {
+    color: #42b983;
+    text-decoration: underline;
+}
+
+html button {
+    color: #fff;
+    background-color: #42b983;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    /* width: 50%; */
+}
+
+html button:hover {
+    background-color: #2a7a5a;
+}
+
+html button:active {
+    background-color: #1e523c;
+}
+
+html input {
+    color: #fff;
+    background-color: #222;
+    border: 1px solid #42b983;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1.6rem;
+    width: 100%;
+}
+html .categ-card {
+    /* max-width: 500px; */
+    align-items: center;
+}

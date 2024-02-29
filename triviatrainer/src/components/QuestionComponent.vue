@@ -90,8 +90,6 @@ const getButtonClass = (answer: string) => {
 }
 
 .card {
-  background-color: #f0f0f0;
-  border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -107,7 +105,6 @@ const getButtonClass = (answer: string) => {
 
 button {
   margin: 5px;
-  border-radius: 10%;
   font-size: large;
 }
 
