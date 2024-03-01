@@ -11,6 +11,9 @@
       <router-link to="/score">Score</router-link>
 
     </nav>
+    <div class="container">
+      <h1>TriviaTrainer</h1>
+    </div>
     <router-view />
   </div>
 </template>

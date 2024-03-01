@@ -1,11 +1,10 @@
 <template>
   <div class='home'>
-    <h1>Quizz</h1>
     <p>Testez vos connaissances</p>
     <p>Nombre de bonnes réponses : {{ state.correctAnswersCount }}</p>
     <p>Nombre de mauvaise réponses : {{ state.incorrectAnswersCount }}</p>
     <button @click='fetchQuestions'>Question suivante</button>
-    <div v-if='state.questions.length > 0' class="card"> 
+    <div v-if='state.questions.length > 0' class="question"> 
       <QuestionComponent v-for='(question, index) in state.questions' :key='index' :question='question'
                           :incrementCorrectAnswers='incrementCorrectAnswers'
                           :incrementIncorrectAnswers='incrementIncorrectAnswers' />
